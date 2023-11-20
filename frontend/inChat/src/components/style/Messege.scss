@@ -1,0 +1,73 @@
+.Messege {
+    height: fit-content;
+
+    .row {
+        width: 100%;
+        display: flex;
+        position: relative;
+
+        .block {
+            max-width: 75%;
+            width: fit-content;
+            background: #0f272d;
+            padding: 8px 10px;
+            margin-bottom: 8px;
+            position: relative;
+            border-radius: 8px 8px 0 8px;
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+
+            svg {
+                position: absolute;
+                right: -14px;
+                bottom: 0;
+                transform: scaleX(-100%);
+
+                path {
+                    fill: #0f272d;
+                }
+            }
+
+            span.msg {
+                font-size: 13px;
+                font-weight: 500;
+                line-height: 1.3;
+                margin-left: 40px;
+                white-space: pre-line;
+                line-break: anywhere;
+            }
+
+            span.time {
+                color: #C7C7C7;
+                position: absolute;
+                font-size: 12px;
+                bottom: 5px;
+                left: 5px;
+            }
+        }
+
+        &.send {
+            justify-content: end;
+            animation: faded 0.3s;
+
+            .block {
+                background: #5D8770;
+                border-radius: 8px 8px 8px 0;
+                align-self: center;
+
+                svg {
+                    position: absolute;
+                    left: -14px;
+                    right: unset;
+                    transform: scaleX(100%);
+
+                    path {
+                        fill: #5D8770;
+                    }
+                }
+            }
+
+        }
+    }
+}

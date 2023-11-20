@@ -1,0 +1,126 @@
+.Register {
+  position: relative;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: start;
+  background-image: -webkit-gradient(linear, right top, left top, from(#0000005a), to(#000));
+  background-image: linear-gradient(to left, #0000005a, #000);
+}
+
+.Register .sideRegister {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 400px;
+  height: 100%;
+  padding-right: 80px;
+  z-index: 1;
+}
+
+.Register .sideRegister form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.Register .sideRegister form input {
+  font-size: 20px;
+  padding: 10px;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  border-bottom: 1px solid #979797;
+}
+
+.Register .sideRegister form input::-webkit-input-placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.Register .sideRegister form input:-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.Register .sideRegister form input::-ms-input-placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.Register .sideRegister form input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.Register .sideRegister form input:focus::-webkit-input-placeholder {
+  color: #fdfdfd;
+}
+
+.Register .sideRegister form input:focus:-ms-input-placeholder {
+  color: #fdfdfd;
+}
+
+.Register .sideRegister form input:focus::-ms-input-placeholder {
+  color: #fdfdfd;
+}
+
+.Register .sideRegister form input:focus::placeholder {
+  color: #fdfdfd;
+}
+
+.Register .sideRegister form input#email:focus {
+  direction: ltr;
+}
+
+.Register .sideRegister form button {
+  height: 40px;
+}
+
+.Register .sideRegister form p {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.Register img.bgcRegisterImg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -webkit-mask-image: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 15%, rgba(0, 0, 0, 0.04) 60%);
+          mask-image: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 15%, rgba(0, 0, 0, 0.04) 60%);
+}
+
+.Register img {
+  width: 30px;
+  height: 30px;
+}
+/*# sourceMappingURL=Register.css.map */

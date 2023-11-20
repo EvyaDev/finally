@@ -1,0 +1,151 @@
+.UserChat {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  cursor: pointer;
+  padding: 5px 0;
+  border-radius: 10px;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.UserChat.current {
+  background-color: #2e494f;
+}
+
+.UserChat:hover {
+  background-color: #2e494f;
+}
+
+.UserChat .avatar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+  padding: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.UserChat .avatar img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50px;
+  margin: 0 10px;
+}
+
+.UserChat .avatar .onlineSymbol {
+  background-color: #1dca1d;
+  height: 12px;
+  width: 12px;
+  border-radius: 50px;
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  -webkit-animation: fadeIn 0.6s;
+          animation: fadeIn 0.6s;
+  -webkit-box-shadow: 0 0 10px #1dca1d;
+          box-shadow: 0 0 10px #1dca1d;
+}
+
+.UserChat .leftSide {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 10px;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  border-bottom: #8696a026 solid 1px;
+}
+
+.UserChat .leftSide .text {
+  font-weight: 300;
+  font-size: 16px;
+}
+
+.UserChat .leftSide .text .name {
+  font-weight: 800;
+}
+
+.UserChat .leftSide .text .lastMsg {
+  color: #8696a0;
+  font-size: 14px;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  white-space: pre-line;
+}
+
+.UserChat .leftSide .info {
+  position: relative;
+}
+
+.UserChat .leftSide .info .count {
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: red;
+  border-radius: 50px;
+  background-color: #8dab9d;
+  font-size: 14px;
+  font-weight: 700;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.UserChat .leftSide .time {
+  color: #8696a0;
+  font-size: 12px;
+}
+/*# sourceMappingURL=UserChat.css.map */

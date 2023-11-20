@@ -1,0 +1,14 @@
+.logout {
+    background-color: #ef0909a6;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 15px !important;
+    transition: .3s ease-in-out;
+
+    &:hover {
+        box-shadow: 0 0 30px -5px #ef0909;
+        background-color: #ef0909;
+    }
+}

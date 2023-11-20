@@ -1,0 +1,91 @@
+.Messege {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+
+.Messege .row {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  position: relative;
+}
+
+.Messege .row .block {
+  max-width: 75%;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  background: #0f272d;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  position: relative;
+  border-radius: 8px 8px 0 8px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  gap: 30px;
+}
+
+.Messege .row .block svg {
+  position: absolute;
+  right: -14px;
+  bottom: 0;
+  -webkit-transform: scaleX(-100%);
+          transform: scaleX(-100%);
+}
+
+.Messege .row .block svg path {
+  fill: #0f272d;
+}
+
+.Messege .row .block span.msg {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-left: 40px;
+  white-space: pre-line;
+  line-break: anywhere;
+}
+
+.Messege .row .block span.time {
+  color: #C7C7C7;
+  position: absolute;
+  font-size: 12px;
+  bottom: 5px;
+  left: 5px;
+}
+
+.Messege .row.send {
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+  -webkit-animation: faded 0.3s;
+          animation: faded 0.3s;
+}
+
+.Messege .row.send .block {
+  background: #5D8770;
+  border-radius: 8px 8px 8px 0;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.Messege .row.send .block svg {
+  position: absolute;
+  left: -14px;
+  right: unset;
+  -webkit-transform: scaleX(100%);
+          transform: scaleX(100%);
+}
+
+.Messege .row.send .block svg path {
+  fill: #5D8770;
+}
+/*# sourceMappingURL=Messege.css.map */

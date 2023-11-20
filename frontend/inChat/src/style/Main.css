@@ -1,0 +1,476 @@
+.Main {
+  background-color: #1c2a2d;
+  height: 100%;
+  width: 100vw;
+  padding: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+@-webkit-keyframes fade-in {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+}
+
+@-webkit-keyframes fade-Out {
+  from {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
+  }
+}
+
+@keyframes fade-Out {
+  from {
+    opacity: 1;
+    -webkit-transform: translateY(0px);
+            transform: translateY(0px);
+  }
+  to {
+    opacity: 0;
+    -webkit-transform: translateY(-10px);
+            transform: translateY(-10px);
+  }
+}
+
+.Main .side {
+  background-color: #416067;
+  width: 40%;
+  height: 100%;
+  min-width: 250px;
+  overflow: hidden;
+}
+
+.Main .side .header {
+  background-color: rgba(0, 0, 0, 0.22);
+  position: relative;
+  height: 70px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  gap: 20px;
+  padding: 0 30px;
+}
+
+.Main .side .header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.Main .side .header div.userList {
+  cursor: pointer;
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  max-height: 400px;
+  width: 95%;
+  background-color: #493a573a;
+  padding: 10px;
+  border-radius: 15px;
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  z-index: 2;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  -webkit-box-shadow: 0 0 40px -10px black;
+          box-shadow: 0 0 40px -10px black;
+  overflow: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+}
+
+.Main .side .header div.userList input {
+  width: 100%;
+  background-color: #ffffff24;
+  border-radius: 10px;
+  padding: 10px;
+  font-weight: 600;
+}
+
+.Main .side .header div.userList .userItem {
+  background-color: #241422ac;
+  padding: 12px;
+  border-radius: 10px;
+  -webkit-transition: .2s ease-in;
+  transition: .2s ease-in;
+}
+
+.Main .side .header div.userList .userItem:hover {
+  background-color: #050304ac;
+}
+
+.Main .side .header div.userList .userItem p {
+  font-weight: 800;
+}
+
+.Main .side .header div.userList .userItem p.email {
+  font-size: 12px;
+  color: #ffffff97;
+  font-weight: 400;
+}
+
+.Main .side .header div.userList p.noResult {
+  text-align: center;
+}
+
+.Main .side .header .search {
+  border-radius: 10px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.13);
+  padding: 5px;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.Main .side .header .search input {
+  border-radius: 10px;
+  border: none;
+  padding: 5px;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  background-color: transparent;
+  font-size: 14px;
+}
+
+.Main .side .header .search svg {
+  opacity: 0.5;
+}
+
+.Main .side .content {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  -webkit-transition: 0.4s ease-in-out;
+  transition: 0.4s ease-in-out;
+  padding: 50px;
+}
+
+.Main .side .content.close {
+  padding: 20px;
+}
+
+.Main .side .content .title {
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+.Main .side .content .usersChat {
+  width: 100%;
+  margin-top: 20px;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 15px;
+  border-radius: 25px;
+  overflow: auto;
+}
+
+.Main .side .content button {
+  width: 100%;
+  height: 40px;
+  font-weight: 700;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  gap: 40px;
+}
+
+.Main .chats {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 60%;
+  min-width: 400px;
+  height: 100%;
+  position: relative;
+}
+
+.Main .chats .header {
+  background-color: #202F33;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  position: relative;
+  padding: 20px;
+  gap: 20px;
+  z-index: 100;
+  height: 70px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.Main .chats .header .typing {
+  color: #a1a1a1;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.Main .chats .header .typing.is-typing {
+  -webkit-animation: fade-in 0.3s;
+          animation: fade-in 0.3s;
+}
+
+.Main .chats .header .typing.is-not-typing {
+  -webkit-animation: fade-Out 0.5s forwards;
+          animation: fade-Out 0.5s forwards;
+}
+
+.Main .chats .header img.avatarInitialChat {
+  width: 40px;
+  height: 40px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50px;
+}
+
+.Main .chats .bgcTexture {
+  height: inherit;
+  width: 100%;
+  opacity: 0.1;
+  background-image: url("../Assets/images/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png");
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.Main .chats img {
+  height: 100%;
+  width: 100%;
+}
+
+.Main .chats .messeges {
+  padding: 30px;
+  overflow: scroll;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.Main .chats .messeges .relativeTime {
+  color: #a4a4a4;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.Main .chats .messeges .scrollDown {
+  position: absolute;
+  bottom: 100px;
+  left: 40px;
+  z-index: 999;
+  width: 40px;
+  height: 40px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 50px;
+  background-color: rgba(187, 187, 187, 0.346);
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  font-size: 12px;
+}
+
+.Main .chats .row {
+  width: 100%;
+}
+
+.Main .chats .footer {
+  background-color: #202F33;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: inherit;
+  padding: 20px;
+  gap: 20px;
+}
+
+.Main .chats .footer textarea {
+  background-color: rgba(255, 255, 255, 0.13);
+  border: none;
+  stroke: none;
+  outline: none;
+  border-radius: 8px;
+  padding: 5px 15px;
+  width: 100%;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  max-height: 200px;
+  overflow-y: auto;
+  resize: none;
+  min-height: 36px;
+}
+
+.Main .chats .footer button {
+  background-color: transparent;
+}
+
+.Main .chats .footer button svg {
+  height: 30px;
+  width: 30px;
+}
+
+.Main .startChat {
+  background-color: #2c313e;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 60%;
+  height: 100%;
+}
+
+.Main .startChat h2 {
+  margin-bottom: 15px;
+  text-shadow: 0px 0px 30px #c3ceee;
+}
+
+.Main .startChat p {
+  color: #ffffff8f;
+  font-size: 16px;
+}
+
+.Main .startChat button {
+  padding: 10px 30px;
+  margin-top: 15px;
+}
+/*# sourceMappingURL=Main.css.map */
