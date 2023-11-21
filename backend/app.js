@@ -2,7 +2,7 @@ const express = require("express")
 const cors = require("cors");
 const app = express();
 const { con } = require("./db_connect");
-// const { Server } = require("socket.io")
+const { Server } = require("socket.io")
 const http = require("http");
 
 const server = http.createServer(app);
