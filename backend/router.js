@@ -1,5 +1,5 @@
 const authGuard = require("./auth-guard");
-const { uploadFile } = require("./files");
+const { uploadFile, getFile } = require("./files");
 const { getMessages, addMessage, getMessagesByUserName, readUpdate } = require("./messages");
 const { signUser, loginUser, getUserById, getUserByToken, getAllUsers, logout } = require("./users");
 
@@ -15,6 +15,7 @@ module.exports = (app) => {
     app.get('/my-messages/:userName', authGuard, getMessagesByUserName)
     app.get('/users', getAllUsers)
     app.get('/user/:id', getUserById)
+    app.get('/file/:name', getFile)
 
     app.post('/signup', signUser);
     app.post('/login', loginUser);

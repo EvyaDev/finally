@@ -32,6 +32,23 @@
   gap: 30px;
 }
 
+.Messege .row .block.image {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 5px;
+}
+
+.Messege .row .block.image .imgChat {
+  height: 200px;
+  width: 100%;
+  min-width: 200px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 5px;
+}
+
 .Messege .row .block svg {
   position: absolute;
   right: -14px;

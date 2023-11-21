@@ -22,7 +22,11 @@ function uploadFile(req, res) {
         const shortType = originalName.split(".").slice(-1)[0]
         const allowed = ['image/jpg', 'image/jpeg', 'image/png'];
         const oldPath = uploadedFile.filepath;
-        const newPath = `./files/inChat_${moment(new Date()).format('DD-MM-YY HH-mm-ss')}.${shortType}`;
+        const newPath = `./files/inChat_${moment(new Date()).format('DD-MM-YY_HH-mm-ss')}.${shortType}`;
+
+        // if (file.size > 1000 * 1024 * 3) {
+        //     return res.status(403).send('Invalid file size specified for ' + file.originalFilename + ': ' + file.size);
+        // }
 
         if (!allowed.includes(mimetype)) {
             return res.status(403).send('Invalid file type specified for ' + originalName + ': ' + mimetype);
@@ -36,14 +40,12 @@ function uploadFile(req, res) {
         });
 
         res.send(newPath);
-
-
-        // if (file.size > 1000 * 1024 * 3) {
-        //     return res.status(403).send('Invalid file size specified for ' + file.originalFilename + ': ' + file.size);
-        // }
-
     });
 };
 
+function getFile(req, res) {
+    res.sendFile(`${__dirname}/files/${req.params.name}`);
+}
 
 exports.uploadFile = uploadFile;
+exports.getFile = getFile;

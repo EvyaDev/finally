@@ -9,21 +9,21 @@ const shcema = new mongoose.Schema({
     toUser: String,
     text: String,
     read: Boolean,
-    img: String
+    imgUrl: String
 })
 
 const MESSAGES = mongoose.model('messages', shcema)
 
 //ADD MESSAGE
 async function addMessage(data) {
-    const { fromUser, toUser, text, url } = data;
+    const { fromUser, toUser, text, imgUrl } = data;
 
     const message = new MESSAGES({
         fromUser,
         toUser,
         text,
         read: false,
-        img: url
+        imgUrl: imgUrl
     })
     const newDocument = await message.save();
 

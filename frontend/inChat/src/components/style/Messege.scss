@@ -18,6 +18,19 @@
             flex-direction: row;
             gap: 30px;
 
+            &.image {
+                flex-direction: column;
+                padding: 5px;
+
+                .imgChat {
+                    height: 200px;
+                    width: 100%;
+                    min-width: 200px;
+                    object-fit: cover;
+                    border-radius: 5px;
+                }
+            }
+
             svg {
                 position: absolute;
                 right: -14px;

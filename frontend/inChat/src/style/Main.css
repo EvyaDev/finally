@@ -323,7 +323,19 @@
   border-radius: 50px;
 }
 
-.Main .chats .bgcTexture {
+.Main .chats .middle {
+  overflow: scroll;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  position: relative;
+}
+
+.Main .chats .middle .bgcTexture {
   height: inherit;
   width: 100%;
   opacity: 0.1;
@@ -335,12 +347,42 @@
   bottom: 0;
 }
 
-.Main .chats img {
-  height: 100%;
+.Main .chats .middle .imageDisplay {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   width: 100%;
+  bottom: 0;
+  top: 0;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  z-index: 9999;
+  background-color: #00000046;
+  -webkit-backdrop-filter: blur(15px);
+          backdrop-filter: blur(15px);
+  padding: 30px;
 }
 
-.Main .chats .messeges {
+.Main .chats .middle .imageDisplay img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.Main .chats .middle .messeges {
   padding: 30px;
   overflow: scroll;
   -webkit-box-flex: 1;
@@ -355,14 +397,14 @@
           flex-direction: column;
 }
 
-.Main .chats .messeges .relativeTime {
+.Main .chats .middle .messeges .relativeTime {
   color: #a4a4a4;
   text-align: center;
   font-size: 12px;
   font-weight: 700;
 }
 
-.Main .chats .messeges .scrollDown {
+.Main .chats .middle .messeges .scrollDown {
   position: absolute;
   bottom: 100px;
   left: 40px;
@@ -389,7 +431,7 @@
   font-size: 12px;
 }
 
-.Main .chats .row {
+.Main .chats .middle .row {
   width: 100%;
 }
 
@@ -412,9 +454,24 @@
   position: inherit;
   padding: 20px;
   gap: 20px;
+  position: relative;
 }
 
-.Main .chats .footer textarea {
+.Main .chats .footer form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-line-pack: justify;
+      align-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
+
+.Main .chats .footer form textarea {
   background-color: rgba(255, 255, 255, 0.13);
   border: none;
   stroke: none;
@@ -431,13 +488,17 @@
   min-height: 36px;
 }
 
-.Main .chats .footer button {
+.Main .chats .footer form button {
   background-color: transparent;
 }
 
-.Main .chats .footer button svg {
+.Main .chats .footer form button svg {
   height: 30px;
   width: 30px;
+}
+
+.Main .chats .footer form button.triggerInputImg {
+  background-color: transparent;
 }
 
 .Main .startChat {
