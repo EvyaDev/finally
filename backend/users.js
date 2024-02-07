@@ -57,8 +57,6 @@ async function signUser(req, res) {
             password: await bcrypt.hash(password, 10),
         });
 
-        console.log("image server: ", image);
-
         const schemaValidation = signupSchema.validate(req.body, {
             abortEarly: false,
             allowUnknown: true,
