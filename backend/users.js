@@ -153,7 +153,7 @@ async function loginUser(req, res) {
         const userRes = user.toObject();
         delete userRes.password;
 
-        userRes.token = jwt.sign({ user: userRes }, process.env.JWT_SECRET, { expiresIn: '5s' });
+        userRes.token = jwt.sign({ user: userRes }, process.env.JWT_SECRET, { expiresIn: '4h' });
 
         customLogger(`SUCCESS - user login: user_name: "${userNameOrEmail}"`);
 
