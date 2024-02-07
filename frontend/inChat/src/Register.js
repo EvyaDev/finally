@@ -21,7 +21,7 @@ export default function Register() {
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d.*\d.*\d.*\d)(?=.*[!@#$%^&*_-])/;
     const registerSchema = joi.object({
         email: joi.string().email({ tlds: false }).required(),
-        userName: joi.string().min(3).max(12).required(),
+        userName: joi.string().min(5).max(12).required(),
         password: joi.string().pattern(passwordRegex).messages({
             'string.pattern.base': 'הסיסמה חייבת לכלול אות גדולה, אות קטנה 4 ספרות וסימן מיוחד',
         }).min(8).max(30).required(),
