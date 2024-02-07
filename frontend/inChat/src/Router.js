@@ -11,7 +11,7 @@ export default function Router() {
         <Routes>
             <Route path='/' element={isLogged ? <Main /> : <Login />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/Register' element={<Register />} />
+            <Route path='/register' element={<Register />} />
         </Routes>
     )
 }

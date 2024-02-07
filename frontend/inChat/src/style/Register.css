@@ -1,18 +1,45 @@
+@-webkit-keyframes in {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(0.06) translateY(-200px);
+            transform: scale(0.06) translateY(-200px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1) translateY(0);
+            transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes in {
+  from {
+    opacity: 0;
+    -webkit-transform: scale(0.06) translateY(-200px);
+            transform: scale(0.06) translateY(-200px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1) translateY(0);
+            transform: scale(1) translateY(0);
+  }
+}
+
 .Register {
   position: relative;
   width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
+  -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+      -ms-flex-direction: row;
+          flex-direction: row;
   -webkit-box-align: start;
       -ms-flex-align: start;
-          align-items: start;
+          align-items: flex-start;
   background-image: -webkit-gradient(linear, right top, left top, from(#0000005a), to(#000));
   background-image: linear-gradient(to left, #0000005a, #000);
+  padding: 60px;
 }
 
 .Register .sideRegister {
@@ -26,9 +53,8 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  width: 400px;
+  width: 40%;
   height: 100%;
-  padding-right: 80px;
   z-index: 1;
 }
 
@@ -98,8 +124,18 @@
   direction: ltr;
 }
 
+.Register .sideRegister form .validationError {
+  font-size: 13px;
+  color: #27d230;
+}
+
 .Register .sideRegister form button {
   height: 40px;
+}
+
+.Register .sideRegister form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .Register .sideRegister form p {
@@ -107,16 +143,31 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+.Register .animation {
+  -webkit-animation: in 3s;
+          animation: in 3s;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 60%;
+  height: 100%;
+}
+
 .Register img.bgcRegisterImg {
   width: 100%;
   height: 100%;
   position: absolute;
-  top: 0;
+  bottom: 0;
   right: 0;
   -o-object-fit: cover;
      object-fit: cover;
-  -webkit-mask-image: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 15%, rgba(0, 0, 0, 0.04) 60%);
-          mask-image: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 15%, rgba(0, 0, 0, 0.04) 60%);
+  opacity: 0.5;
 }
 
 .Register img {

@@ -1,14 +1,16 @@
 import './style/App.css';
+import './style/Responsive.css';
+
 import Router from './Router';
 import { createContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import io from "socket.io-client"
 
-export const GeneralContext = createContext()
-export const APP_NAME = "inChat"
 export const HOSTING_URL = "http://localhost:4000"
+export const APP_NAME = "inChat"
 export const VERSION_APP = "1.0.0"
 export const socket = io.connect(HOSTING_URL)
+export const GeneralContext = createContext()
 
 
 export default function App() {
@@ -19,9 +21,10 @@ export default function App() {
 
     //check if user is logged
     useEffect(() => {
+
         if (localStorage.token) {
             fetch(`${HOSTING_URL}/login`, {
-                credentials: "include",
+                credentials: 'include',
                 headers: { 'authorization': localStorage.token },
             })
                 .then(res => {
@@ -38,10 +41,12 @@ export default function App() {
                     setUserData(data)
                 })
                 .catch(err => {
+                    setIsLogged(false)
                     Navigate("/login")
                     console.log(err)
                 })
         }
+
     }, [isLogged])
 
 

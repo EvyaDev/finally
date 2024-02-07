@@ -39,11 +39,11 @@
 }
 
 .UserChat.current {
-  background-color: #2e494f;
+  background-color: #2c2133;
 }
 
 .UserChat:hover {
-  background-color: #2e494f;
+  background-color: #2c2133;
 }
 
 .UserChat .avatar {

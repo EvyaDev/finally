@@ -1,34 +1,59 @@
 import React, { useContext, useState } from 'react';
-import "./style/Login.css"
 import { Link, useNavigate } from 'react-router-dom';
 import { GeneralContext, HOSTING_URL } from './App';
-import { Logout } from './Logout';
+import robot from "./Assets/robot.json"
+import Lottie from 'lottie-react';
+import joi from 'joi'
+import { JOI_HEBREW } from "./joi-hebrew"
+import bgc from "./Assets/images/91657.jpg"
+import "./style/Login.css"
 
 export default function Login() {
 
-    const { userData, setUserData, setIsLogged } = useContext(GeneralContext);
+    const { setUserData, setIsLogged } = useContext(GeneralContext);
     const [formData, setFormData] = useState({});
     const [err, setErr] = useState("");
+    const [IsValid, setIsValid] = useState(false);
+    const [errors, setErrors] = useState({});
+
     const Navigate = useNavigate()
+
+    const loginSchema = joi.object({
+        userNameOrEmail: joi.string().min(5).required(),
+        password: joi.string().min(5).max(12).required(),
+    })
 
     function handleInput(e) {
         const { id, value } = e.target;
 
-        setFormData({
+        const updateFormData = ({
             ...formData,
             [id]: value
         })
+
+        const schema = loginSchema.validate(updateFormData, { abortEarly: false, allowUnknown: true, messages: { he: JOI_HEBREW }, errors: { language: 'he' } });
+
+        const errors = {};
+        if (schema.error) {
+            for (const e of schema.error.details) {
+                errors[e.context.key] = e.message;
+            };
+            setIsValid(false)
+        } else {
+            setIsValid(true)
+        }
+        setFormData(updateFormData)
+        setErrors(errors)
     }
 
-    function login(e) {
-        e.preventDefault();
+    function login(ev) {
+        ev.preventDefault();
 
         fetch(`${HOSTING_URL}/login`, {
             credentials: "include",
             headers: { 'content-type': 'application/json' },
             method: 'POST',
             body: JSON.stringify(formData),
-
         })
             .then(res => res.json())
             .then(data => {
@@ -37,13 +62,12 @@ export default function Login() {
                     return setErr(data.Error.message)
                 } else {
                     setErr("");
+                    Navigate("/");
                     setIsLogged(true);
+                    setUserData(data);
                     localStorage.token = data.token;
                     localStorage.lastUserChat = "";
-                    setUserData(data)
-                    Navigate("/")
                 }
-
             })
             .catch(err => console.log(err))
     }
@@ -51,18 +75,25 @@ export default function Login() {
     return (
         <div className='Login'>
             <div className='sideLogin'>
-                <h1>  כניסה</h1>
+                <h1>כניסה</h1>
                 <p>מקום לשוחח ולשתף עם חברים</p>
                 <form onSubmit={login}>
-                    <input id='userNameOrEmail' placeholder='שם משתמש או כתובת מייל' onChange={handleInput}></input>
-                    <input type='password' id='password' placeholder='סיסמה' onChange={handleInput}></input>
+                    <input id='userNameOrEmail' placeholder='* שם משתמש או כתובת מייל' onChange={handleInput}></input>
+                    <p className="validationError">{errors.userNameOrEmail}</p>
+
+                    <input type='password' id='password' placeholder='* סיסמה' onChange={handleInput}></input>
+                    <p className="validationError">{errors.password}</p>
                     {err && <p>{err}</p>}
-                    <button> כניסה</button>
+                    <button disabled={!IsValid}> כניסה</button>
                     <p>עדיין לא רשום? הרשם <Link to={"/register"}><b>כאן</b></Link></p>
 
                 </form>
             </div>
-            <img className='bgcLoginImg' alt='' src='https://images.unsplash.com/photo-1523821741446-edb2b68bb7a0?auto=format&fit=crop&q=80&w=2070&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'></img>
+            <div className='animation'>
+                <Lottie animationData={robot} style={{ width: 450 + "px" }} />
+            </div>
+
+            <img className='bgcLoginImg' alt='background-login' src={bgc}></img>
         </div>
     )
 }

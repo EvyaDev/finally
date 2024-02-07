@@ -1,0 +1,95 @@
+@keyframes slide-in {
+    from {
+        opacity: .6;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+
+    }
+}
+
+
+//LARGE
+@media (min-width: 768px) {}
+
+//MEDIUM
+@media (max-width: 767px) {
+    .App {
+        padding: 0 !important;
+
+        .frame {
+            height: 100% !important;
+
+            .Main {
+                padding: 0px !important;
+                height: 100vh !important;
+
+                .content {
+                    padding: 10px !important;
+                }
+
+                .side {
+                    width: 100% !important;
+                    animation: slide-in ease-in 0.7s;
+
+                    &+.Chats {
+                        display: none;
+                        animation: slide-in ease-in 0.4s;
+                    }
+                }
+
+                .startChat {
+                    display: none;
+                }
+
+                .back {
+                    display: block !important;
+                }
+
+                .side.chatShow {
+                    display: none !important;
+                    opacity: 0.2 !important;
+
+                    &+.Chats {
+                        width: 100%;
+                        display: flex;
+                        min-width: initial;
+                    }
+                }
+            }
+
+            .Login {
+                flex-direction: column-reverse !important;
+                padding: 25px !important;
+
+                .sideLogin {
+                    width: 100% !important;
+                }
+
+                .animation {
+                    display: none !important;
+                }
+            }
+
+            .Register {
+                flex-direction: column-reverse !important;
+                padding: 25px !important;
+
+                .sideRegister {
+                    width: 100% !important;
+
+                }
+
+                .animation {
+                    display: none !important;
+                }
+            }
+        }
+    }
+}
+
+//SMALL
+@media (max-width: 330px) {}

@@ -1,16 +1,18 @@
 import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
-import UserChat from './components/UserChat';
-import moment from "moment";
 import { APP_NAME, socket } from './App';
 import { GeneralContext, HOSTING_URL } from './App';
+import { useNavigate } from 'react-router-dom';
+import robot from "./Assets/robot.json";
+import moment from "moment";
+import Lottie from 'lottie-react';
+import { SlOptionsVertical } from "react-icons/sl";
+import { ReactComponent as NewChatIcon } from './Assets/newChat.svg';
+import Chats from './components/Chats';
+import Settings from './Settings';
+import UserChat from './components/UserChat';
+import userPlaceHolder from "./Assets/images/placeholder.jpg";
 import 'moment/locale/he';
 import './style/Main.css';
-import robot from "./Assets/robot.json"
-import Lottie from 'lottie-react';
-import { ReactComponent as NewChatIcon } from './Assets/newChat.svg';
-import Settings from './Settings';
-import { SlOptionsVertical } from "react-icons/sl";
-import Chats from './Chats';
 
 export const chatsContext = createContext();
 
@@ -18,19 +20,31 @@ export default function Main() {
     const { userData, usersOnline } = useContext(GeneralContext);
 
     const textareaRef = useRef(null);
-    const fileInputRef = useRef(null);
 
     const [val, setVal] = useState("");
     const [currentUser, setCurrentUser] = useState(localStorage ? localStorage.lastUserChat : "");
     const [users, setUsers] = useState([]);
     const [chats, setChats] = useState([]);
-    const [usersMenu, setUsersMenu] = useState(false);
     const [searchUser, setSearchUser] = useState("");
-    const [userMessages, setUserMessages] = useState({});
     const [userUnread, setUserUnread] = useState({});
     const [userTyping, setUserTyping] = useState({});
-    const [isRead, setIsRead] = useState(false);
+    const [usersMenu, setUsersMenu] = useState(false);
+    const [userMessages, setUserMessages] = useState({});
     const [settingsOpen, setSettingsOpen] = useState(false);
+    const [mobileChatScreen, setMobileChatScreen] = useState(false);
+
+    const Navigate = useNavigate();
+
+    //get all users in application
+    useEffect(() => {
+        fetch(`${HOSTING_URL}/users`)
+            .then(res => res.json())
+            .then(data => setUsers(data))
+            .catch(err => {
+                console.log(err);
+                Navigate("/login");
+            })
+    }, [])
 
     //socket configuration
     useEffect(() => {
@@ -41,7 +55,6 @@ export default function Main() {
 
         socket.on("new-msg", res => {
             chats.push(res)
-
             socket.emit("get-msgs-by-user", { token: localStorage.token, userName: userData.userName })
             socket.on("res-msgs-by-user", (res) => {
                 setChats(res);
@@ -49,41 +62,22 @@ export default function Main() {
         })
 
         socket.on("typing", (data) => {
-            const { mode, fromUser } = data;
-            setUserTyping({ fromUser, mode })
+            setUserTyping(data);
         })
 
-    }, [socket])
+    }, [socket]);
 
     function searchUserHandle(e) {
-        setSearchUser(e.target.value)
+        setSearchUser(e.target.value);
     }
 
     //click on user from list of users
     function clickUser(username) {
         setVal("");
-        read(username);
         setCurrentUser(username);
         localStorage.lastUserChat = username;
-        setUserUnread({ ...userUnread, [currentUser]: 0 })
+        setUserUnread({ ...userUnread, [currentUser]: 0 });
         textareaRef.current && textareaRef.current.focus();
-    }
-
-    //read all the messages of current user
-    function read(from) {
-        setIsRead(true);
-
-        fetch(`${HOSTING_URL}/read`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ from: from, to: userData.userName })
-        })
-            .then(() => {
-                socket.emit("get-msgs-by-user", { token: localStorage.token, userName: userData.userName })
-                socket.on("res-msgs-by-user", (res) => {
-                    setChats(res);
-                })
-            })
     }
 
     //convert from "chats" array to group by name
@@ -101,44 +95,42 @@ export default function Main() {
         userMessages[toUser][id] = chat;
     });
 
-    //get all users in application
-    useEffect(() => {
-        fetch(`${HOSTING_URL}/users`)
-            .then(res => res.json())
-            .then(data => setUsers(data))
-            .catch(err => console.log(err))
-    }, [])
-
-
     return (
         <div className="Main">
 
-            <section className="side">
+            <section className={mobileChatScreen ? "side chatShow" : "side"}>
                 <div className="header">
-                    <img alt='' src='https://www.kayacosmedica.com.au/wp-content/uploads/2020/06/male-fillers-patient.jpg'></img>
-                    {/* <div className='search'>
-                        <input placeholder='חיפוש...'></input>
-                        <AiOutlineSearch />
-                    </div> */}
-                    <p className='title'> <b> {userData.userName}</b> </p>
-                    <NewChatIcon style={{ cursor: "pointer" }} onClick={() => setUsersMenu(!usersMenu)} />
-                    <SlOptionsVertical onClick={() => setSettingsOpen(!settingsOpen)} />
+                    <div className='header-right'>
+                        <img onClick={() => setSettingsOpen(!settingsOpen)} alt='user-avatar' src={userData.image ? `${HOSTING_URL}/file/${userData.image}` : userPlaceHolder}></img>
+                        <p className='title'> <b> {userData.userName}</b> </p>
+                    </div>
+
+                    <div className='header-left'>
+                        <NewChatIcon style={{ cursor: "pointer" }} onClick={() => { setUsersMenu(!usersMenu); setSettingsOpen(false) }} />
+                        <SlOptionsVertical onClick={() => setSettingsOpen(!settingsOpen)} />
+                    </div>
 
                     {usersMenu &&
                         <div className='userList'>
                             <input onInput={searchUserHandle} placeholder='חיפוש משתמש...'></input>
-                            {users.length && users.filter(x => (x.userName.includes(searchUser) || x.email.includes(searchUser)) && x.userName !== userData.userName).map(user => {
+                            {users.length && users.filter(x => (x.userName.includes(searchUser) || x.email.includes(searchUser)) && x.userName !== userData.userName).map((user, i, arr) => {
                                 return (
-                                    user ? <div key={user._id} className='userItem'
-                                        onClick={() => {
-                                            setCurrentUser(user.userName);
-                                            localStorage.lastUserChat = user.userName;
-                                            setUsersMenu(false)
-                                        }} >
-
-                                        <p>@{user.userName}</p>
-                                        <p className='email'>{user.email}</p>
-                                    </div>
+                                    arr.length ?
+                                        <div key={user._id} className='userItem'
+                                            onClick={() => {
+                                                setCurrentUser(user.userName);
+                                                localStorage.lastUserChat = user.userName;
+                                                setUsersMenu(false);
+                                                setMobileChatScreen(true);
+                                            }}>
+                                            <div className='userItemImage'>
+                                                <img alt='user-item-image' src={user.image ? `${HOSTING_URL}/file/${user.image}` : userPlaceHolder} />
+                                            </div>
+                                            <div className='userItemText'>
+                                                <p>@{user.userName}</p>
+                                                <p className='email'>{user.email}</p>
+                                            </div>
+                                        </div>
                                         : <p className='noResult'>אין תוצאות</p>
                                 )
                             })}
@@ -152,26 +144,32 @@ export default function Main() {
                     <p className='title'>צ׳אטים אחרונים</p>
 
                     <div className='usersChat'>
-                        {Object.keys(userMessages).length ? Object.keys(userMessages).filter(x => x !== userData.userName).map((username) => {
-                            const messagesForUser = Object.values(userMessages[username]);
-                            messagesForUser.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
+                        {Object.keys(userMessages).length ?
+                            Object.keys(userMessages).filter(x => x !== userData.userName).map((username) => {
+                                const messagesForUser = Object.values(userMessages[username]);
+                                messagesForUser.sort((a, b) => new Date(b.dateTime) - new Date(a.dateTime));
 
-                            return (
-                                <div key={username} onClick={() => clickUser(username)}>
-                                    <UserChat
-                                        name={username}
-                                        lastChat={messagesForUser[0].text}
-                                        time={moment(messagesForUser[0].dateTime).format("HH:mm")}
-                                        current={currentUser === username}
-                                        count={[username]}
-                                        typing={userTyping.fromUser === username && userTyping.mode}
-                                        online={usersOnline.includes(username)}
-                                    />
-                                </div>
-                            )
-                        }) :
-
-                            <button onClick={() => setUsersMenu(true)}>התחלה</button>
+                                return (
+                                    <div key={username} onClick={() => {
+                                        clickUser(username);
+                                        setMobileChatScreen(true);
+                                    }}>
+                                        <chatsContext.Provider value={{ users }}>
+                                            <UserChat
+                                                name={username}
+                                                count={[username]}
+                                                image={username.image}
+                                                current={currentUser === username}
+                                                lastChat={messagesForUser[0].text}
+                                                online={usersOnline.includes(username)}
+                                                time={moment(messagesForUser[0].dateTime).format("HH:mm")}
+                                                typing={userTyping.fromUser === username && userTyping.mode}
+                                            />
+                                        </chatsContext.Provider>
+                                    </div>
+                                )
+                            })
+                            : <button onClick={() => setUsersMenu(true)}>התחלה</button>
                         }
                     </div>
                 </div>
@@ -179,24 +177,25 @@ export default function Main() {
 
 
             {currentUser ?
-
                 //chats screen
                 <chatsContext.Provider value={{
+                    users,
                     userData,
                     userUnread,
                     userTyping,
                     val, setVal,
                     chats, setChats,
-                    currentUser, setCurrentUser
+                    currentUser, setCurrentUser,
+                    mobileChatScreen, setMobileChatScreen
                 }}>
-                    <Chats />
+                    <Chats online={usersOnline.includes(currentUser)} />
                 </chatsContext.Provider>
                 :
-                //start mode
+                //start mode screen
                 <div className='startChat'>
                     <Lottie animationData={robot} style={{ width: 250 + "px" }} />
 
-                    <h2>{APP_NAME} </h2>
+                    <h2>{APP_NAME}</h2>
                     <p>מקום לשוחח ולשתף עם חברים</p>
                     <p>על מנת להתחיל שיחה, יש לבחור משתמש תחילה</p>
                     <button onClick={() => setUsersMenu(true)}>התחלה</button>

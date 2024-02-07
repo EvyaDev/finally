@@ -1,0 +1,95 @@
+@-webkit-keyframes slide-in {
+  from {
+    opacity: .6;
+    -webkit-transform: scale(0.95);
+            transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@keyframes slide-in {
+  from {
+    opacity: .6;
+    -webkit-transform: scale(0.95);
+            transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: scale(1);
+            transform: scale(1);
+  }
+}
+
+@media (max-width: 767px) {
+  .App {
+    padding: 0 !important;
+  }
+  .App .frame {
+    height: 100% !important;
+  }
+  .App .frame .Main {
+    padding: 0px !important;
+    height: 100vh !important;
+  }
+  .App .frame .Main .content {
+    padding: 10px !important;
+  }
+  .App .frame .Main .side {
+    width: 100% !important;
+    -webkit-animation: slide-in ease-in 0.7s;
+            animation: slide-in ease-in 0.7s;
+  }
+  .App .frame .Main .side + .Chats {
+    display: none;
+    -webkit-animation: slide-in ease-in 0.4s;
+            animation: slide-in ease-in 0.4s;
+  }
+  .App .frame .Main .startChat {
+    display: none;
+  }
+  .App .frame .Main .back {
+    display: block !important;
+  }
+  .App .frame .Main .side.chatShow {
+    display: none !important;
+    opacity: 0.2 !important;
+  }
+  .App .frame .Main .side.chatShow + .Chats {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    min-width: initial;
+  }
+  .App .frame .Login {
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: reverse !important;
+        -ms-flex-direction: column-reverse !important;
+            flex-direction: column-reverse !important;
+    padding: 25px !important;
+  }
+  .App .frame .Login .sideLogin {
+    width: 100% !important;
+  }
+  .App .frame .Login .animation {
+    display: none !important;
+  }
+  .App .frame .Register {
+    -webkit-box-orient: vertical !important;
+    -webkit-box-direction: reverse !important;
+        -ms-flex-direction: column-reverse !important;
+            flex-direction: column-reverse !important;
+    padding: 25px !important;
+  }
+  .App .frame .Register .sideRegister {
+    width: 100% !important;
+  }
+  .App .frame .Register .animation {
+    display: none !important;
+  }
+}
+/*# sourceMappingURL=Responsive.css.map */

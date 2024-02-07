@@ -1,5 +1,4 @@
-const { getFile } = require("./files");
-const { addMessage, getMessagesByUserName } = require("./messages");
+const { addMessage, getMessagesByUserName, deleteMsg } = require("./messages");
 const socketGuard = require("./socket-guard");
 
 module.exports = (io) => {
@@ -11,20 +10,29 @@ module.exports = (io) => {
         socket.on("add-user", (userName) => {
             conectedUsers.set(userName, socket.id);
             console.log("user connect: ", userName);
-            console.log("map is: ", conectedUsers);
         })
 
 
         socket.on("send-msg", async (data) => {
             const access = await socketGuard(data.token);
             const toUserSocket = conectedUsers.get(data.toUser);
-
             if (access) {
-
-                const newDocument = await addMessage({ fromUser, toUser, text, imgUrl } = data);
+                const newDocument = await addMessage({ fromUser, toUser, text } = data);
                 socket.to(toUserSocket).emit('new-msg', newDocument);
             } else {
                 socket.emit('new-msg', "not user allowed");
+            }
+        })
+
+
+        socket.on("delete-msg", async (data) => {
+            const access = await socketGuard(data.token);
+            const toUserSocket = conectedUsers.get(data.user);
+            if (access) {
+                await deleteMsg({ msgId } = data);
+                socket.to(toUserSocket).emit("del-msg", msgId);
+            } else {
+                socket.emit("del-msg", "not user allowed");
             }
         })
 
@@ -40,7 +48,6 @@ module.exports = (io) => {
 
 
         socket.on("get-msgs-by-user", async (data) => {
-
             const access = await socketGuard(data.token);
             if (access) {
                 const res = await getMessagesByUserName(data.userName);

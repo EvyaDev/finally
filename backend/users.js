@@ -2,7 +2,13 @@ const mongoose = require('mongoose');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const joi = require('joi');
+const { JOI_HEBREW } = require('./joi-hebrew');
 const moment = require('moment');
+const { changeUserNameOnMsgs } = require('./messages');
+const customLogger = require('./customLogger');
+const { APP_NAME } = require('./config');
+
 require("dotenv").config();
 
 const transporter = nodemailer.createTransport({
@@ -13,45 +19,89 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-const shcema = new mongoose.Schema({
+// Validation
+const loginSchema = joi.object({
+    userNameOrEmail: joi.string().min(5).required(),
+    password: joi.string().min(5).max(12).required(),
+});
+
+const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d.*\d.*\d.*\d)(?=.*[!@#$%^&*_-])/;
+const signupSchema = joi.object({
+    email: joi.string().email({ tlds: false }).required(),
+    userName: joi.string().min(5).max(12).required(),
+    password: joi.string().pattern(passwordRegex).messages({
+        'string.pattern.base': 'הסיסמה חייבת לכלול אות גדולה, אות קטנה 4 ספרות וסימן מיוחד',
+    }).min(8).max(30).required()
+});
+
+// Email schema
+const schema = new mongoose.Schema({
     userName: { type: String, index: true, unique: true },
     email: { type: String, index: true, unique: true },
     password: String,
+    image: String,
     createdTime: { type: Date, default: Date.now },
-})
+});
 
-const USER = mongoose.model('users', shcema)
-USER.createIndexes({ "email": 1 },)
+const USER = mongoose.model('users', schema);
+USER.createIndexes({ "email": 1 });
 
-//SIGNUP
+// REGISTER
 async function signUser(req, res) {
-    const { userName, email, password } = req.body;
+    try {
+        const { userName, email, password, image } = req.body;
+        const user = new USER({
+            userName,
+            email,
+            image,
+            password: await bcrypt.hash(password, 10),
+        });
 
-    const user = new USER({
-        userName,
-        email,
-        password: await bcrypt.hash(password, 10)
-    })
+        console.log("image server: ", image);
 
-    const mailOptions = {
-        from: 'no-reply@chatflow.co.il',
-        to: '7655714@gmail.com',
-        subject: 'הרשמה לאפליקציית chatFlow',
-        html: `<h1>נרשמת בהצלחה</h1>
-                <p>שלום וברכה לאפליקצייה שלנו!</p>
-                <h2>שם המשתמש: ${userName}</h2>
-                </br>
-                <p>${moment().format('DD/MM/YYYY HH:mm')}</p>`
-    };
+        const schemaValidation = signupSchema.validate(req.body, {
+            abortEarly: false,
+            allowUnknown: true,
+            messages: { he: JOI_HEBREW },
+            errors: { language: 'he' }
+        });
 
-    const newUser = await user.save()
+        if (schemaValidation.error) {
+            let errors = {};
 
-        .then(async (user) => {
+            for (const e of schemaValidation.error.details) {
+                errors[e.context.key] = e.message;
+            }
 
-            delete user._doc.password;
-            res.send(user);
+            customLogger(`ERROR - user tried signup: user_name: "${userName}",email: "${email}" passwrod: "${password}" | details: "אורך תווים שגוי" `);
+            return res.status(403).send({
+                Error: { message: "אורך תווים שגוי" },
+            });
+        } else {
+            customLogger(`SUCCESS - user signup: user_name: "${userName}"`);
 
-            //send mail 
+            const mailOptions = {
+                from: 'no-reply@chatflow.co.il',
+                to: '7655714@gmail.com', // temporary email address
+                subject: `הרשמה לאפליקציית ${APP_NAME}`,
+                html: `
+                    <body style="direction: rtl;">
+                        <h1>נרשמת בהצלחה</h1>
+                        <p>שלום וברכה לאפליקצייה שלנו!</p>
+                        <h2>שם המשתמש: ${userName}</h2>
+                        <h2>סיסמה: ${password}</h2>
+                        </br>
+                        <p>${moment().format('DD/MM/YYYY HH:mm')}</p>
+                    </body>
+                `
+            };
+
+            const newUser = await user.save();
+
+            delete newUser._doc.password;
+            res.send(newUser);
+
+            // send mail
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
                     console.log(error);
@@ -59,21 +109,63 @@ async function signUser(req, res) {
                     console.log('Email sent: ' + info.response);
                 }
             });
-        })
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
 
-        .catch(err => {
-            if (err.code == 11000) {
-                res.status(403).send({
-                    Error: { message: "שם משתמש או אימייל תפוס" },
-                })
-                console.log("בוצע ניסיון להרשם עם מייל או שם משתמש הקיימים במערכת");
-            } else {
-                console.log("שגיאה");
+// LOGIN
+async function loginUser(req, res) {
+    try {
+        const { userNameOrEmail, password } = req.body;
+        const schemaValidation = loginSchema.validate(req.body, {
+            abortEarly: false,
+            allowUnknown: true,
+            messages: { he: JOI_HEBREW },
+            errors: { language: 'he' }
+        });
+
+        if (schemaValidation.error) {
+            let errors = {};
+
+            for (const e of schemaValidation.error.details) {
+                errors[e.context.key] = e.message;
             }
-        })
-};
 
-//GET ALL USER
+            customLogger(`ERROR - user tried login: user_name: "${userNameOrEmail}", password: "${password}" | details: "אורך תווים שגוי" `);
+            return res.status(403).send({
+                Error: { message: "אורך תווים שגוי" },
+            });
+        }
+
+        const user = await USER.findOne({
+            '$or': [{ 'email': userNameOrEmail }, { 'userName': userNameOrEmail }]
+        });
+
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+            customLogger(`ERROR - user tried login: user_name: "${userNameOrEmail}", password: "${password}" | details: "שגיאה בפרטי כניסה" `);
+            return res.status(403).send({
+                Error: { message: "שם משתמש או סיסמה שגויים" },
+            });
+        }
+
+        const userRes = user.toObject();
+        delete userRes.password;
+
+        userRes.token = jwt.sign({ user: userRes }, process.env.JWT_SECRET, { expiresIn: '5s' });
+
+        customLogger(`SUCCESS - user login: user_name: "${userNameOrEmail}"`);
+
+        res.send(userRes);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+//GET ALL USERS
 async function getAllUsers(req, res) {
 
     const users = await USER.find()
@@ -112,39 +204,33 @@ function getUserByToken(req) {
     return data.user;
 }
 
-//LOGIN
-async function loginUser(req, res) {
-    const { userNameOrEmail, password } = req.body;
-    const user = USER.findOne({
-        '$or': [{ 'email': userNameOrEmail }, { 'userName': userNameOrEmail }]
-    })
-        .then(async user => {
+//CHANGE USERNAME
+async function changeName(req, res) {
+    const { id, newName } = req.body;
 
-            const passwordMatch = await bcrypt.compare(password, user.password);
+    const filter = { _id: id };
+    const update = { userName: newName };
+    const users = await (await USER.find()).map(a => a.userName)
 
-            if (!passwordMatch) {
-                return res.status(403).send({
-                    Error: { message: "שם משתמש או סיסמה שגויים" },
-                });
-            }
-            const userRes = user.toObject();
-            delete userRes.password;
+    if (users.includes(newName)) {
+        res.send(403, "משתמש תפוס");
+    } else {
+        const userNameById = await USER.findById(id)
+        await changeUserNameOnMsgs(userNameById.userName, newName);
+        await USER.updateMany(filter, update);
 
-            userRes.token = jwt.sign({ user: userRes }, process.env.JWT_SECRET, { expiresIn: '3h' });
-            res.send(userRes)
-        })
-        .catch(err => {
+        const userAfterChange = await USER.findById(id)
+        const userRes = userAfterChange.toObject();
+        delete userRes.password;
+        userRes.token = jwt.sign({ user: userRes }, process.env.JWT_SECRET, { expiresIn: '3h' });
 
-            res.status(403).send({
-                Error: { message: "שם משתמש או אימייל שגוי" },
-            })
-            console.log(err);
-        })
+        res.send(userRes);
+    }
 }
-
 
 exports.signUser = signUser;
 exports.loginUser = loginUser;
+exports.changeName = changeName;
 exports.getUserById = getUserById;
-exports.getUserByToken = getUserByToken;
 exports.getAllUsers = getAllUsers;
+exports.getUserByToken = getUserByToken;

@@ -23,16 +23,17 @@
         }
     }
 
-    background-color: #1c2a2d;
+    background-color: #1b141f;
     height: 100%;
     width: 100vw;
     padding: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 100px -60px rgba(149, 142, 226, 0.366);
 
     .side {
-        background-color: #416067;
+        background-color: #29253a;
         width: 40%;
         height: 100%;
         min-width: 250px;
@@ -46,8 +47,6 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: space-between;
-            gap: 20px;
             padding: 0 30px;
 
             img {
@@ -55,6 +54,22 @@
                 height: 40px;
                 border-radius: 50px;
                 object-fit: cover;
+                cursor: pointer;
+            }
+
+            .header-right {
+                display: flex;
+                width: 50%;
+                gap: 25px;
+                align-items: center;
+            }
+
+            .header-left {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                width: 50%;
+                gap: 30px;
             }
 
             div.userList {
@@ -62,7 +77,8 @@
                 position: absolute;
                 top: 80px;
                 left: 50%;
-                max-height: 400px;
+                height: fit-content;
+                max-height: 600px;
                 width: 95%;
                 background-color: #493a573a;
                 padding: 10px;
@@ -75,7 +91,6 @@
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
-
 
                 input {
                     width: 100%;
@@ -90,20 +105,32 @@
                     padding: 12px;
                     border-radius: 10px;
                     transition: .2s ease-in;
+                    display: flex;
+                    flex-direction: row;
+                    gap: 20px;
 
                     &:hover {
                         background-color: #050304ac;
                     }
 
-                    p {
-                        font-weight: 800;
-
-                        &.email {
-                            font-size: 12px;
-                            color: #ffffff97;
-                            font-weight: 400;
+                    .userItemImage {
+                        img {
+                            display: block;
                         }
                     }
+
+                    .userItemText {
+                        p {
+                            font-weight: 800;
+
+                            &.email {
+                                font-size: 12px;
+                                color: #ffffff97;
+                                font-weight: 400;
+                            }
+                        }
+                    }
+
                 }
 
                 p.noResult {
@@ -134,6 +161,8 @@
                     opacity: 0.5;
                 }
             }
+
+
         }
 
         .content {
@@ -176,184 +205,8 @@
         }
     }
 
-    .chats {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        width: 60%;
-        min-width: 400px;
-        height: 100%;
-        position: relative;
-
-        .header {
-            background-color: #202F33;
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: flex-start;
-            position: relative;
-            padding: 20px;
-            gap: 20px;
-            z-index: 100;
-            height: 70px;
-            font-weight: 700;
-            font-size: 16px;
-
-
-            .typing {
-                color: #a1a1a1;
-                font-weight: 500;
-                font-size: 13px;
-
-                &.is-typing {
-                    animation: fade-in 0.3s;
-                }
-
-                &.is-not-typing {
-                    animation: fade-Out 0.5s forwards;
-                }
-            }
-
-            img.avatarInitialChat {
-                width: 40px;
-                height: 40px;
-                object-fit: cover;
-                border-radius: 50px;
-            }
-        }
-
-        .middle {
-            overflow: scroll;
-            height: 100%;
-            display: flex;
-            flex-grow: 1;
-            position: relative;
-
-            .bgcTexture {
-                height: inherit;
-                width: 100%;
-                opacity: 0.1;
-                background-image: url("../Assets/images/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png");
-                position: absolute;
-                top: 0;
-                right: 0;
-                left: 0;
-                bottom: 0;
-            }
-
-            .imageDisplay {
-                position: absolute;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                bottom: 0;
-                top: 0;
-                flex-grow: 1;
-                z-index: 9999;
-                background-color: #00000046;
-                backdrop-filter: blur(15px);
-                padding: 30px;
-
-                img {
-                    height: 100%;
-                    width: 100%;
-                    object-fit: contain;
-                }
-            }
-
-            .messeges {
-                padding: 30px;
-                overflow: scroll;
-                flex-grow: 1;
-                display: flex;
-                flex-direction: column;
-
-                .relativeTime {
-                    color: rgb(164, 164, 164);
-                    text-align: center;
-                    font-size: 12px;
-                    font-weight: 700;
-                }
-
-                .scrollDown {
-                    position: absolute;
-                    bottom: 100px;
-                    left: 40px;
-                    z-index: 999;
-                    width: 40px;
-                    height: 40px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    border-radius: 50px;
-                    background-color: rgba(187, 187, 187, 0.346);
-                    backdrop-filter: blur(5px);
-                    font-size: 12px;
-                }
-            }
-
-            .row {
-                width: 100%;
-            }
-        }
-
-
-        .footer {
-            background-color: #202F33;
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            position: inherit;
-            padding: 20px;
-            gap: 20px;
-            position: relative;
-
-            form {
-                display: flex;
-                flex-direction: row;
-                align-content: space-between;
-                width: 100%;
-                gap: 20px;
-
-                textarea {
-                    background-color: rgba(255, 255, 255, 0.13);
-                    border: none;
-                    stroke: none;
-                    outline: none;
-                    border-radius: 8px;
-                    padding: 5px 15px;
-                    width: 100%;
-                    min-width: fit-content;
-                    max-height: 200px;
-                    overflow-y: auto;
-                    resize: none;
-                    min-height: 36px;
-                }
-
-                button {
-                    background-color: transparent;
-
-                    svg {
-                        height: 30px;
-                        width: 30px;
-                    }
-                }
-
-                button.triggerInputImg {
-                    background-color: transparent;
-                }
-            }
-        }
-    }
-
     .startChat {
-        background-color: #2c313e;
+        background-color: #302b49;
         display: flex;
         align-items: center;
         justify-content: center;

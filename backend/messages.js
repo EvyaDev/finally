@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const moment = require('moment');
 const jwt = require('jsonwebtoken');
 require("dotenv").config();
 
@@ -9,24 +8,22 @@ const shcema = new mongoose.Schema({
     toUser: String,
     text: String,
     read: Boolean,
-    imgUrl: String
 })
 
 const MESSAGES = mongoose.model('messages', shcema)
 
 //ADD MESSAGE
 async function addMessage(data) {
-    const { fromUser, toUser, text, imgUrl } = data;
+    const { fromUser, toUser, text } = data;
 
     const message = new MESSAGES({
         fromUser,
         toUser,
         text,
         read: false,
-        imgUrl: imgUrl
     })
-    const newDocument = await message.save();
 
+    const newDocument = await message.save();
     return (newDocument);
 }
 
@@ -36,15 +33,11 @@ async function getMessages() {
     return (messages);
 }
 
-//READ
-async function readUpdate(req, res) {
-    const { from, to } = req.body;
-    console.log(from, to);
-
-    const updateMsg = await MESSAGES.updateMany({ $and: [{ fromUser: from }, { toUser: to }] }, { read: true })
-    console.log(updateMsg);
-
-    res.send();
+//DELETE MESSAGES
+async function deleteMsg(data) {
+    const { msgId } = data;
+    const deleteMsg = await MESSAGES.deleteOne({ _id: msgId });
+    return (deleteMsg);
 }
 
 //GET MESSAGE BY userName
@@ -54,7 +47,20 @@ async function getMessagesByUserName(userName) {
     return (result)
 }
 
-exports.getMessages = getMessages;
+//CHANGE USERNAME IN MESSAGES
+async function changeUserNameOnMsgs(userNameById, newName) {
+
+    const filterFrom = { fromUser: userNameById };
+    const filterTo = { toUser: userNameById };
+    const updateFrom = { fromUser: newName };
+    const updateTo = { toUser: newName };
+
+    await MESSAGES.updateMany(filterFrom, updateFrom)
+    await MESSAGES.updateMany(filterTo, updateTo)
+}
+
+exports.deleteMsg = deleteMsg;
 exports.addMessage = addMessage;
+exports.getMessages = getMessages;
+exports.changeUserNameOnMsgs = changeUserNameOnMsgs;
 exports.getMessagesByUserName = getMessagesByUserName;
-exports.readUpdate = readUpdate;

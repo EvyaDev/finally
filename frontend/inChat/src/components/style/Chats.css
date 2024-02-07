@@ -1,0 +1,223 @@
+.Chats {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 60%;
+  min-width: 400px;
+  height: 100%;
+  position: relative;
+}
+
+.Chats .header {
+  background-color: #29253a;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  position: relative;
+  padding: 20px;
+  gap: 20px;
+  z-index: 100;
+  height: 70px;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.Chats .header .back {
+  display: none;
+  background-color: transparent;
+  font-size: 26px;
+}
+
+.Chats .header .typing {
+  color: #a1a1a1;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.Chats .header .typing.is-typing {
+  -webkit-animation: fade-in 0.3s;
+          animation: fade-in 0.3s;
+}
+
+.Chats .header .typing.is-not-typing {
+  -webkit-animation: fade-Out 0.5s;
+          animation: fade-Out 0.5s;
+}
+
+.Chats .header img.avatarInitialChat {
+  width: 40px;
+  height: 40px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50px;
+}
+
+.Chats .middle {
+  overflow: scroll;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  position: relative;
+}
+
+.Chats .middle .bgcTexture {
+  height: inherit;
+  width: 100%;
+  opacity: 0.05;
+  background-image: url("../../Assets/images/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png");
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.Chats .middle .imageDisplay {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  bottom: 0;
+  top: 0;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  z-index: 9999;
+  background-color: #00000046;
+  -webkit-backdrop-filter: blur(15px);
+          backdrop-filter: blur(15px);
+  padding: 30px;
+}
+
+.Chats .middle .imageDisplay img {
+  height: 100%;
+  width: 100%;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.Chats .middle .messeges {
+  padding: 30px;
+  overflow: scroll;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.Chats .middle .messeges .relativeTime {
+  color: #a4a4a4;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.Chats .middle .row {
+  width: 100%;
+}
+
+.Chats .footer {
+  background-color: #00000025;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  position: inherit;
+  padding: 20px;
+  gap: 20px;
+  position: relative;
+}
+
+.Chats .footer form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -ms-flex-line-pack: justify;
+      align-content: space-between;
+  width: 100%;
+  gap: 20px;
+}
+
+.Chats .footer form textarea {
+  background-color: rgba(255, 255, 255, 0.13);
+  border: none;
+  stroke: none;
+  outline: none;
+  border-radius: 8px;
+  padding: 5px 15px;
+  width: 100%;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  max-height: 200px;
+  overflow-y: auto;
+  resize: none;
+  min-height: 36px;
+}
+
+.Chats .footer form button {
+  background-color: transparent;
+}
+
+.Chats .footer form button svg {
+  height: 30px;
+  width: 30px;
+}
+
+.Chats .footer form button.triggerInputImg {
+  background-color: transparent;
+}
+/*# sourceMappingURL=Chats.css.map */
